@@ -13,11 +13,29 @@ const router = Router();
 
 //guardar datos desde api en nuestra base de datos
 
+router.get('/videogames', async (req, res) => {
+    if(req.query.name){
+        console.log(req.query.name);
+    const videogame = await Videogame.findAll({
+    where: {
+        name: req.query.name,
+        }
+    });
+    if(videogame.length) res.json(videogame);
+    if(videogame.length == 0){
+       res.status(400).json({error: "No se encontró el videojuego"});
+    }
+    } else {
+    const videogames = await Videogame.findAll();
+    res.json(videogames);
+    
+    }
 
-
+});
 
 router.get('/videogames/api' , async(req, res) => {
-    const response = await fetch(`https://api.rawg.io/api/games?key=${apiKey}&page_size=25`)
+   
+    const response = await fetch(`https://api.rawg.io/api/games?key=${apiKey}`)
     const data = await response.json()
     const responseNext = await fetch(data.next)
     const dataNext = await responseNext.json()
@@ -37,7 +55,7 @@ router.get('/videogames/api' , async(req, res) => {
         })
         
 
-        const videogame = await Videogame.findOrcreate({
+        const videogame = await Videogame.create({
             name: game.name,
             description: dataDescription.description,
             rating: game.rating_top,
@@ -47,7 +65,11 @@ router.get('/videogames/api' , async(req, res) => {
         )
     })
     await Promise.all(games)
-    res.send("ok")
+    .then(async () => {
+        const videogame = await Videogame.findAll();
+        res.json(videogame);
+    }
+    )
 })
 
 router.get('/genres/api', async(req, res) => {
@@ -59,7 +81,6 @@ router.get('/genres/api', async(req, res) => {
         })
     })
     await Promise.all(genres)
-    res.send("ok")
 })
 
 
@@ -81,18 +102,6 @@ router.get('/videogames/:idVideogames', async (req, res) => {
     const videogame = await Videogame.findByPk(req.params.idVideogames);
     res.json(videogame);
 });
-
-//obtener el juego por query
-router.get('/videogames', async (req, res) => {
-    console.log(req.query);
-    const videogame = await Videogame.findAll({
-    where: {
-        name: req.query.name,
-    }
-});
-res.json(videogame);
-}
-);
 
 router.post ('/genres', async (req, res) => {
     const { name } = req.body;
