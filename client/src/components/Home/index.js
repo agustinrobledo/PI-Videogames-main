@@ -1,12 +1,12 @@
 import React from 'react';
+import { SearchBar } from '../SearchBar';
+import { VideogameList } from '../VideogameList';
+import './home.scss'
 export function Home() {
   return (
-    <div>
-      <h1>Home</h1>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-        Voluptates, quisquam.
-      </p>
+    <div className="home-main">
+      <SearchBar/>
+      <VideogameList/>
     </div>
   );
 }
