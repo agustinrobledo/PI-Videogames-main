@@ -21,10 +21,13 @@ export function VideogameList() {
     const [search, setSearch] = useState('');
     const [filter, setFilter] = useState('');
     const filteredGames = () => {
-        if (search.length === 0) {
+        if (search.length === 0 && filter.length === 0) {
             return listGames.slice(currentPage, currentPage + 9);
         }
-        return listGames.filter(game => game.name.toLowerCase().includes(search.toLowerCase())).slice(currentPage, currentPage + 9);
+        else if (search.length > 0) return listGames.filter(game => game.name.toLowerCase().includes(search.toLowerCase())).slice(currentPage, currentPage + 9);
+        else if (filter.length > 0) return listGames.filter(game => game.genre.toLowerCase().includes(filter.toLowerCase())).slice(currentPage, currentPage + 9);
+
+
     }
     const nextPage = () => {
         if(listGames.filter(game => game.name.toLowerCase().includes(search.toLowerCase())).length > currentPage + 9){
@@ -38,6 +41,10 @@ export function VideogameList() {
     const onSearchChange = (event) => {
         setCurrentPage(0);
         setSearch(event.target.value);
+    }
+    const onFilterChange = (event) => {
+        setCurrentPage(0);
+        setFilter(event.target.value);
     }
 
 
@@ -56,6 +63,25 @@ export function VideogameList() {
                     <button type="submit" className="search-logo"><i className="fa fa-search"></i></button>
                 </form>
             </div>
+            <div>
+                <h1>
+                    Filtrar por género
+                </h1>
+                <select
+                    value={filter}
+                    onChange={onFilterChange}
+                    className="select-genre"
+                >
+                   {
+                    listGenres.map(genre => 
+                     <option key={genre.id} value={genre.id}>{genre.name}</option>
+                    )
+                   }     
+                </select>
+            </div>
+
+
+
             <div className="list-container">
                 {filteredGames().map(game =>
                     <div className="list-item" key={game.id}>
