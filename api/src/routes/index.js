@@ -1,13 +1,18 @@
 const { Router } = require('express');
 const { Videogame, Genre } = require('../db');
 const fetch = require('node-fetch');
-
+const cors = require('cors');
 // Importar todos los routers;
 // Ejemplo: const authRouter = require('./auth.js');
 const apiKey = "8e203509bc72432d8bb5b22762751b6e"
 
 const router = Router();
-
+router.use(
+    cors({
+      origin: 'http://localhost:3000',
+      credentials: true,
+    })
+  );
 // Configurar los routers
 // Ejemplo: router.use('/auth', authRouter);
 
