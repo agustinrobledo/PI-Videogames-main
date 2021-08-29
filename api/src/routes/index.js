@@ -66,6 +66,8 @@ router.get('/videogames/api' , async(req, res) => {
             rating: game.rating_top,
             plataforms: platforms.join(', '),
             release_date: game.released,
+            game_genres: game.genres.map(genre => genre.name).join(', '),
+            background_img: game.background_image,
         }
         )
     })
@@ -90,7 +92,7 @@ router.get('/genres/api', async(req, res) => {
 
 
 router.post('/videogames', async (req, res) => {
-    const  { name, description, rating, plataforms, id, release_date,  } = req.body;
+    const  { name, description, rating, plataforms, id, release_date, genre } = req.body;
     const videogame = await Videogame.create({
         name,
         description,
@@ -99,6 +101,8 @@ router.post('/videogames', async (req, res) => {
         id,
         release_date,
     });
+    videogame.setGenres(genre);
+
     res.json(videogame);
 
 });
