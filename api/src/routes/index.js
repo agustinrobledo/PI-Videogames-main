@@ -20,26 +20,20 @@ router.use(
 
 router.get('/videogames', async (req, res) => {
     if(req.query.name){
-        console.log(req.query.name);
-    const videogame = await Videogame.findAll({
-    where: {
-        name: req.query.name,
-        }
-    });
-    if(videogame.length) res.json(videogame);
-    if(videogame.length == 0){
-       res.status(400).json({error: "No se encontró el videojuego"});
-    }
-    } else {
-    const videogames = await Videogame.findAll();
-    res.json(videogames);
+        const { name } = req.query;
+        const videogames = await Videogame.findAll({
+            where: {
+                name: name
+            },
+            include: Genre
+        });
+        res.json(videogames);
+    }else{
     
-    }
 
-});
 
-router.get('/videogames/api' , async(req, res) => {
-   
+    const videogamesdb = await Videogame.findAll({
+    });
     const response = await fetch(`https://api.rawg.io/api/games?key=${apiKey}`)
     const data = await response.json()
     const responseNext = await fetch(data.next)
@@ -60,24 +54,28 @@ router.get('/videogames/api' , async(req, res) => {
         })
         
 
-        const videogame = await Videogame.create({
+        const videogame = {
             name: game.name,
+            id: game.id,
             description: dataDescription.description,
             rating: game.rating_top,
             plataforms: platforms.join(', '),
             release_date: game.released,
             game_genres: game.genres.map(genre => genre.name).join(', '),
-            background_img: game.background_image,
+            background_image: game.background_image,
         }
-        )
+        return videogame
     })
     await Promise.all(games)
-    .then(async () => {
-        const videogame = await Videogame.findAll();
-        res.json(videogame);
+    .then(videogames => {
+        res.json(videogames.concat(videogamesdb))
     }
     )
-})
+    }
+}
+)
+
+
 
 router.get('/genres/api', async(req, res) => {
     const response = await fetch(`https://api.rawg.io/api/genres?key=${apiKey}`)
@@ -92,24 +90,56 @@ router.get('/genres/api', async(req, res) => {
 
 
 router.post('/videogames', async (req, res) => {
-    const  { name, description, rating, plataforms, id, release_date, genre } = req.body;
+    var  { name, description, rating, plataforms, release_date, game_genres } = req.body;
+    rating = Number(rating)
+    game_genres = game_genres.join(', ')
     const videogame = await Videogame.create({
         name,
         description,
         rating,
         plataforms,
-        id,
         release_date,
+        background_image: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
+        game_genres,
     });
-    videogame.setGenres(genre);
+    //buscar id del genero en la base de datos
+    const genre = await Genre.findOne({
+        where: {
+            name: game_genres
+        }
+    })
+    await videogame.addGenre(genre)
 
-    res.json(videogame);
+    res.json(videogame)
 
 });
 
-router.get('/videogames/:idVideogames', async (req, res) => {
-    const videogame = await Videogame.findByPk(req.params.idVideogames);
-    res.json(videogame);
+router.get('/videogames/:id', async (req, res) => {
+    const { id } = req.params;
+    if(isNaN(id)){
+    const videogame = await Videogame.findByPk(id);
+    res.json(videogame)
+    }
+    else{
+        const response = await fetch(`https://api.rawg.io/api/games/${id}?key=${apiKey}`)
+        const data = await response.json()
+        const platforms = [];
+        data.parent_platforms.forEach(platform => {
+            platforms.push(platform.platform.name)
+        })
+        const videogameApi = {
+            name: data.name,
+            id: data.id,
+            description: data.description,
+            rating: data.rating_top,
+            plataforms: platforms.join(', '),
+            release_date: data.released,
+            game_genres: data.genres.map(genre => genre.name).join(', '),
+            background_image: data.background_image,
+    }
+    res.json(videogameApi)
+    }
+
 });
 
 router.post ('/genres', async (req, res) => {

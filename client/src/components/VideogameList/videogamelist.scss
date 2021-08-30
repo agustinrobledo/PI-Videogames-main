@@ -52,16 +52,28 @@
             align-items: center;
             margin: 1rem;
             width: 30rem;
-            height: 30rem;
+            height: 35rem;
             background-color: #3f3f3fe8;
             border-radius: 1em;
             text-align: center;
+            padding-bottom: 2rem;
                 h1{
                     font-size: 1.4rem;
                 }
                 h4{
                     font-size: 1rem;
                 }
+            
+                    .list-item-link {
+                    text-decoration: none;
+                    color: white;
+                    font-weight: bold;
+                    background-color: #2196F3;
+                    padding: 0.5rem;
+                    border-radius: 1em;
+                    margin-top: 1rem;
+                }
+            
             .list-item-img {
                 img {
                     width: 100%;

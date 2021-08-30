@@ -1,5 +1,28 @@
 import axios from 'axios';
 
+
+export const getVideogameById = (id) => {
+    return (dispatch) => {
+        axios.get(`http://localhost:3001/videogames/${id}`)
+            .then(res => {
+                dispatch({
+                    type: 'GET_VIDEOGAME_BY_ID',
+                    payload: res.data
+                })
+            })
+            .catch(err => {
+                dispatch({
+                    type: 'GET_VIDEOGAME_BY_ID_ERROR',
+                    payload: err
+                })
+            })
+    }
+}
+
+
+
+
+
 export const fetchListGames = () => {
     return (dispatch) => {
         dispatch(fetchListGamesRequest());

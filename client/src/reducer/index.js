@@ -2,9 +2,8 @@ const initialState = {
   loading: false,
   games: [],
   error: '',
-  loadingGenres: false,
   genres: [],
-  errorGenres: '',
+  game: {},
 
 };
 
@@ -33,22 +32,38 @@ const rootReducer = (state = initialState, action) => {
     case 'FETCH_GENRE_LIST_REQUEST':
       return {
         ...state,
-        loadingGenres: true,
+        loading: true,
       };
     case 'GENRE_LIST_SUCCESS':
       return {
         ...state,
-        loadingGenres: true,
+        loading: true,
         genres: action.payload,
-        errorGenres: '',
+        error: '',
       };
     case 'GENRE_LIST_FAILURE':
       return {
         ...state,
-        loadingGenres: false,
+        loading: false,
         genres: [],
-        errorGenres: action.payload,
+        error: action.payload,
       };
+
+    case 'GET_VIDEOGAME_BY_ID':
+      return {
+        ...state,
+        loading: true,
+        game: action.payload,
+        error: '',
+    };
+    case 'GET_VIDEOGAME_BY_ID_ERROR':
+      return {
+        ...state,
+        loading: false,
+        game: {},
+        error: action.payload,
+    };
+
     default:
       return state;
   }
