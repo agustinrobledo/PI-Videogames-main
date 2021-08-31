@@ -27,12 +27,12 @@ const rootReducer = (state = initialState, action) => {
     case 'FETCH_LIST_GAMES_REQUEST':
       return {
         ...state,
-        loading: true,
+        loading: false,
       };
     case 'FETCH_GENRE_LIST_REQUEST':
       return {
         ...state,
-        loading: true,
+        loading: false,
       };
     case 'GENRE_LIST_SUCCESS':
       return {

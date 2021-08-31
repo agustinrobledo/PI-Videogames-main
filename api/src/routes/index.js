@@ -4,7 +4,7 @@ const fetch = require('node-fetch');
 const cors = require('cors');
 // Importar todos los routers;
 // Ejemplo: const authRouter = require('./auth.js');
-const apiKey = "8e203509bc72432d8bb5b22762751b6e"
+const apiKey = "55023baf198e42168aea94fd3a0cd49f"
 
 const router = Router();
 router.use(
@@ -27,7 +27,16 @@ router.get('/videogames', async (req, res) => {
             },
             include: Genre
         });
-        res.json(videogames);
+        if(videogames.length > 0){
+            res.json(videogames);
+        }else{
+            const response = await fetch(`https://api.rawg.io/api/games?key=${apiKey}&search=${name}&page_size=15`);
+            const data = await response.json();
+            console.log(data)
+            const videogamesApi = data.results;
+            res.json(videogamesApi);
+        }
+        
     }else{
     const videogamesdb = await Videogame.findAll({include: Genre});
         let videogamesMapped = videogamesdb.map(videogame => {

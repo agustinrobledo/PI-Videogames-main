@@ -64,11 +64,10 @@ export function VideogameList() {
     }
 
 
-
-    return (
+      return (
         <>
             <div className="search-bar">
-                <form className="search-form">
+                <div className="search-form">
                     <input 
                         value={search}
                         onChange={onSearchChange}
@@ -76,8 +75,8 @@ export function VideogameList() {
                         className="input-search" 
                         placeholder="Search a videogame" 
                     />
-                    <button type="submit" className="search-logo"><i className="fa fa-search"></i></button>
-                </form>
+                    <button type="submit" disabled className="search-logo"><i className="fa fa-search"></i></button>
+                </div>
             </div>
             <div className="filters">
                 <div className="genre-filter">
@@ -131,9 +130,8 @@ export function VideogameList() {
                 </select>
                 </div>
             </div>
-
-
-
+            {listGames.length === 0 ? <h1 className="loading-games">Cargando...</h1> : 
+             filteredGames().length === 0 ? <h1 className="games-not-found">No hay juegos que coincidan con tu búsqueda</h1> :   
             <div className="list-container">
                 {filteredGames().map(game =>
                     <div className="list-item" key={game.id}>
@@ -157,22 +155,28 @@ export function VideogameList() {
                             
                     </div>
                 )}
+            </div >
+        }
+            <div className="pagination">
+                <button 
+                    className="pagination-button"
+                    onClick={prevPage}
+                    disabled={currentPage === 0}
+                    
+                >
+                    Anterior
+                </button>
+                <button
+                    className="pagination-button"
+                    onClick={nextPage}
+                    disabled={currentPage + 9 >= listGames.length}
+                >
+                    Siguiente
+                </button>
             </div>
-            <button
-                onClick={prevPage}
-                disabled={currentPage === 0}
-                
-            >
-                Anterior
-            </button>
-            <button
-                onClick={nextPage}
-                disabled={currentPage + 9 >= listGames.length}
-            >
-                Siguiente
-            </button>
         </>
     );
+                                
 }
 
  

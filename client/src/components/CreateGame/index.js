@@ -51,6 +51,9 @@ export default function CreateGame() {
             body: JSON.stringify(newGame),
         });
         const data = await response.json();
+        if(data.error){
+            alert(data.error)
+        }
     };
 
 
@@ -61,30 +64,19 @@ export default function CreateGame() {
 
   return (
     <div className="creategame-main">
-      <h1>Create Game</h1>
-      <p>Create your game</p>
+      <h1>Create your game</h1>
       <form className="form-container">
-        <label>
-          Game Name:
-          <input type="text" name="name" value={newGame.name} onChange={handleChange} required />
-        </label>
-        <label>
-          Description:
+          <h2>Game Name:</h2>
+          <input type="text" name="name" value={newGame.name} className={newGame.name ? "form-input" : "input-error"} onChange={handleChange} required />
+          <h2>Description:</h2> 
           <textarea type="text" name="description" value={newGame.description} onChange={handleChange} required/>
-        </label>
-        <label>
-          Release Date:
+
+   
+          <h2>Release Date:</h2>
           <input type="date" name="release_date" value={newGame.release_date} onChange={handleChange} required/>
-        </label>
-          Genre:
-            {genreList.map(genre => (
-              <div key={genre.id}>
-                <input type="checkbox" onChange={handleChangeGenres} name={genre.name} value={genre.name} />
-                {genre.name}
-              </div>
-            ))}
-        <label>
-        Rating:
+       
+  
+        <h2>Rating:</h2>
             <select name="rating" value={newGame.rating} onChange={handleChange}>
               <option></option>
               <option>1</option>
@@ -93,14 +85,20 @@ export default function CreateGame() {
               <option>4</option>
               <option>5</option>
             </select>
-        </label>
-        <label>
-          Platforms:
+          <h2>Platforms:</h2>
           <input type="text" name="plataforms" value={newGame.plataforms} onChange={handleChange} required/>
-        </label>
-        <label>
+        <div className="genres-container">
+          <h2>Genres:</h2>
+            <div className="checkbox-container">
+              {genreList.map(genre => (
+                <div key={genre.id}>
+                  <input type="checkbox" onChange={handleChangeGenres} name={genre.name} value={genre.name} />
+                  {genre.name}
+                </div>
+              ))}
+            </div>
+        </div>
           <input type="submit" value="Create Game" onClick={newGame.release_date && handleSubmit} disabled={!newGame.name || !newGame.description || !newGame.plataforms}/>  
-        </label>   
       </form>
     </div>
   );

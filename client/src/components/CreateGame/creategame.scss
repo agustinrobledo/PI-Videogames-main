@@ -1,13 +1,28 @@
 .creategame-main{
     margin-top: 12vh;
     color: white;
-
+    
+    h1{
+        font-size: 2rem;
+        text-align: center;
+    }
 
 }
 .form-container{
     display: flex;
     flex-direction: column;
-    label{
-        margin-bottom: 1rem;
+    width: 60%;
+    margin: 0 auto;
+    input{
+        border: 0.5rem solid #f8c417;
+        border-radius: 0.5rem;
     }
+    .genres-container{
+        .checkbox-container{
+            display: flex;
+            flex-direction: column;
+            flex-wrap: wrap;
+            height: 10vh;
+            }
+        }
 }
