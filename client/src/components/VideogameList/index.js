@@ -24,6 +24,11 @@ export function VideogameList() {
     const [sort, setSort] = useState('');
     const [sortOrigin, setSortOrigin] = useState('');
     const filteredGames = () => {
+        // API array de objetos juegos... game_genres
+        // DB array de objetos juegos... genres ... [name]
+
+
+
         if (search.length === 0 && filter.length === 0 && sort.length === 0 && sortOrigin.length === 0) return listGames.slice(currentPage, currentPage + 9)
         else if (search.length > 0) return listGames.filter(game => game.name.toLowerCase().includes(search.toLowerCase())).slice(currentPage, currentPage + 9);
         else if (filter.length > 0) return listGames.filter(game => game.game_genres.split(', ').includes(filter)).slice(currentPage, currentPage + 9);
@@ -139,7 +144,11 @@ export function VideogameList() {
                                 <h4>{game.game_genres}</h4>
                             </div>
                             <div className="list-item-img">
-                                <img src={game.background_image} alt={game.name}/>
+                                <img 
+                                src={game.background_image ? 
+                                game.background_image 
+                                : "https://images.unsplash.com/photo-1550745165-9bc0b252726f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80"} 
+                                alt={game.name}/>
                             </div>
                            
                             <Link className="list-item-link" to={`/videogames/${game.id}`}>

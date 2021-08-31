@@ -29,11 +29,24 @@ router.get('/videogames', async (req, res) => {
         });
         res.json(videogames);
     }else{
-    
+    const videogamesdb = await Videogame.findAll({include: Genre});
+        let videogamesMapped = videogamesdb.map(videogame => {
+        let genres = videogame.genres.map(genre => genre.name)
+        const videogameData = {
+            name: videogame.name,
+            id: videogame.id,
+            description: videogame.description,
+            game_genres: genres.join(', '),
+            plataforms: videogame.plataforms,
+            release_date: videogame.release_date,
+            rating: videogame.rating,
+        }
+        return videogameData;
+    })
 
 
-    const videogamesdb = await Videogame.findAll({
-    });
+
+
     const response = await fetch(`https://api.rawg.io/api/games?key=${apiKey}`)
     const data = await response.json()
     const responseNext = await fetch(data.next)
@@ -68,7 +81,7 @@ router.get('/videogames', async (req, res) => {
     })
     await Promise.all(games)
     .then(videogames => {
-        res.json(videogames.concat(videogamesdb))
+        res.json(videogames.concat(videogamesMapped))
     }
     )
     }
@@ -92,7 +105,7 @@ router.get('/genres/api', async(req, res) => {
 router.post('/videogames', async (req, res) => {
     var  { name, description, rating, plataforms, release_date, game_genres } = req.body;
     rating = Number(rating)
-    game_genres = game_genres.join(', ')
+    // game_genres = game_genres.join(', ')
     const videogame = await Videogame.create({
         name,
         description,
@@ -100,19 +113,21 @@ router.post('/videogames', async (req, res) => {
         plataforms,
         release_date,
         background_image: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
-        game_genres,
+        // game_genres,
     });
     //buscar id del genero en la base de datos
-    const genre = await Genre.findOne({
+    game_genres.forEach( async (genre) => {
+    const genero = await Genre.findOne({
         where: {
-            name: game_genres
+            name: genre
         }
     })
-    await videogame.addGenre(genre)
-
+    await videogame.addGenre(genero)
+})
     res.json(videogame)
+})
 
-});
+    
 
 router.get('/videogames/:id', async (req, res) => {
     const { id } = req.params;

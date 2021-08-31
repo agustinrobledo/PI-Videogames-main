@@ -42,8 +42,6 @@ export default function CreateGame() {
     };
    
     async function handleSubmit(e) {
-        e.preventDefault();
-        
         const response = await fetch("http://localhost:3001/videogames", {
             method: "POST",
             headers: {
@@ -53,8 +51,6 @@ export default function CreateGame() {
             body: JSON.stringify(newGame),
         });
         const data = await response.json();
-        console.log(data);
-        
     };
 
 
@@ -70,15 +66,15 @@ export default function CreateGame() {
       <form className="form-container">
         <label>
           Game Name:
-          <input type="text" name="name" value={newGame.name} onChange={handleChange} />
+          <input type="text" name="name" value={newGame.name} onChange={handleChange} required />
         </label>
         <label>
           Description:
-          <textarea type="text" name="description" value={newGame.description} onChange={handleChange} />
+          <textarea type="text" name="description" value={newGame.description} onChange={handleChange} required/>
         </label>
         <label>
           Release Date:
-          <input type="date" name="release_date" value={newGame.release_date} onChange={handleChange} />
+          <input type="date" name="release_date" value={newGame.release_date} onChange={handleChange} required/>
         </label>
           Genre:
             {genreList.map(genre => (
@@ -100,10 +96,10 @@ export default function CreateGame() {
         </label>
         <label>
           Platforms:
-          <input type="text" name="plataforms" value={newGame.plataforms} onChange={handleChange} />
+          <input type="text" name="plataforms" value={newGame.plataforms} onChange={handleChange} required/>
         </label>
         <label>
-          <input type="submit" value="Create Game" onClick={handleSubmit} />  
+          <input type="submit" value="Create Game" onClick={newGame.release_date && handleSubmit} disabled={!newGame.name || !newGame.description || !newGame.plataforms}/>  
         </label>   
       </form>
     </div>

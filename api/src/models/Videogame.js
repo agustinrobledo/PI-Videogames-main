@@ -26,14 +26,14 @@ module.exports = (sequelize) => {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
-    },
-    background_image: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    game_genres: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
+    }
+    // background_image: {
+    //   type: DataTypes.STRING,
+    //   allowNull: false,
+    // },
+    // game_genres: {
+    //   type: DataTypes.STRING,
+    //   allowNull: false,
+    // },
   });
 };
