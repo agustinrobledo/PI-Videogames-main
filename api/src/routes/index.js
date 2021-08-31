@@ -99,18 +99,6 @@ router.get('/videogames', async (req, res) => {
 
 
 
-router.get('/genres/api', async(req, res) => {
-    const response = await fetch(`https://api.rawg.io/api/genres?key=${apiKey}`)
-    const data = await response.json()
-    const genres = data.results.map(async genre => {
-        const videogame = await Genre.create({
-            name: genre.name,
-        })
-    })
-    await Promise.all(genres)
-})
-
-
 router.post('/videogames', async (req, res) => {
     var  { name, description, rating, plataforms, release_date, game_genres } = req.body;
     rating = Number(rating)
@@ -172,12 +160,25 @@ router.post ('/genres', async (req, res) => {
     res.json(genre);
   }
   );
-  router.get('/genres', async (req, res) => {
-    const genres = await Genre.findAll();
-    res.json(genres);
-  }
-  );
-  
+  router.get('/genres', async(req, res) => {
+    const genresDatabase = await Genre.findAll();
+    if(genresDatabase.length > 0){
+        res.json(genresDatabase);
+    }else{
+    const response = await fetch(`https://api.rawg.io/api/genres?key=${apiKey}`)
+    const data = await response.json()
+    const genres = data.results.map(async genre => {
+        const videogame = await Genre.create({
+            name: genre.name,
+        })
+    })
+    await Promise.all(genres)
+    .then(async ()  => {
+        const genresDb = await Genre.findAll();
+        res.json(genresDb)
+    })
+    }
+})
 
 
 
