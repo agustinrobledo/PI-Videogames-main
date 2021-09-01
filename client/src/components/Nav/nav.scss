@@ -1,3 +1,6 @@
+$primary: #f8c417;
+$secondary: #E7003E;
+
 .header{
     background:#141414;
     color: white;
@@ -30,11 +33,11 @@
                 margin-right: 3rem;
                 
                     .createYourGame{
-                        background-color: #E7003E;
-                        color: #f8c417;
+                        background-color: $secondary;
+                        color: $primary;
                         &:hover{
-                            background-color: #f8c417;
-                            color: #E7003E;   
+                            background-color: $primary;
+                            color:$secondary;   
                         }
                     }
 

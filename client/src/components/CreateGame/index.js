@@ -65,19 +65,41 @@ export default function CreateGame() {
   return (
     <div className="creategame-main">
       <h1>Create your game</h1>
-      <form className="form-container">
+      <form className="form-container" onSubmit={newGame.name && newGame.description && newGame.plataforms && handleSubmit}>
           <h2>Game Name:</h2>
-          <input type="text" name="name" value={newGame.name} className={newGame.name ? "form-input" : "input-error"} onChange={handleChange} required />
+          <input 
+          type="text" 
+          name="name" 
+          value={newGame.name} 
+          className={newGame.name ? "form-input" : "input-error"} 
+          onChange={handleChange} 
+          required />
+          {!newGame.name && <p className="alert">*Please enter a name</p>}
           <h2>Description:</h2> 
-          <textarea type="text" name="description" value={newGame.description} onChange={handleChange} required/>
-
+          <textarea 
+          type="text" 
+          name="description" 
+          value={newGame.description} 
+          className={newGame.description ? "form-input" : "input-error"} 
+          onChange={handleChange} required/>
+        {!newGame.description && <p className="alert">*Please enter a description</p>}
    
           <h2>Release Date:</h2>
-          <input type="date" name="release_date" value={newGame.release_date} onChange={handleChange} required/>
-       
+          <input 
+          type="date" 
+          name="release_date" 
+          value={newGame.release_date} 
+          onChange={handleChange} 
+          required
+          />
+        {!newGame.release_date && <p className="alert">*Please enter a release date</p>}
   
         <h2>Rating:</h2>
-            <select name="rating" value={newGame.rating} onChange={handleChange}>
+            <select 
+            name="rating" 
+            value={newGame.rating} 
+            onChange={handleChange}
+            >
               <option></option>
               <option>1</option>
               <option>2</option>
@@ -86,19 +108,36 @@ export default function CreateGame() {
               <option>5</option>
             </select>
           <h2>Platforms:</h2>
-          <input type="text" name="plataforms" value={newGame.plataforms} onChange={handleChange} required/>
+          <input 
+          type="text" 
+          name="plataforms" 
+          value={newGame.plataforms} 
+          className={newGame.plataforms ? "form-input" : "input-error"} 
+          onChange={handleChange} 
+          required
+          />
+          {!newGame.plataforms && <p className="alert">*Please enter a platforms</p>}
         <div className="genres-container">
           <h2>Genres:</h2>
             <div className="checkbox-container">
               {genreList.map(genre => (
                 <div key={genre.id}>
-                  <input type="checkbox" onChange={handleChangeGenres} name={genre.name} value={genre.name} />
+                  <input type="checkbox" 
+                  onChange={handleChangeGenres} 
+                  name={genre.name} 
+                  value={genre.name} />
                   {genre.name}
                 </div>
               ))}
             </div>
         </div>
-          <input type="submit" value="Create Game" onClick={newGame.release_date && handleSubmit} disabled={!newGame.name || !newGame.description || !newGame.plataforms}/>  
+          <input 
+          type="submit" 
+          value="Create your game" 
+          className="form-submit"
+          onClick={newGame.release_date && handleSubmit} 
+          disabled={!newGame.name || !newGame.description || !newGame.plataforms}
+          />  
       </form>
     </div>
   );
