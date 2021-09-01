@@ -22,6 +22,10 @@ export function Videogame() {
       <h4>Rating: {videogame.rating}</h4>
       <h4>Platforms: {videogame.plataforms}</h4>
       <h4>Release date: {videogame.release_date} </h4>
+      <h4>Genres: {videogame.genres ?  videogame.genres.map(genre => genre.name).join(', ') : 
+          videogame.game_genres
+         }
+      </h4>
       </div>
      <p className="videogame-description">{videogame.description ? videogame.description.replace(/<[^>]+>/g, '') : videogame.description}</p>
      {//ReactHtmlParser(videogame.description) 

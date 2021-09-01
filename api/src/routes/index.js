@@ -101,7 +101,7 @@ router.get('/videogames', async (req, res) => {
 
 router.post('/videogames', async (req, res) => {
     var  { name, description, rating, plataforms, release_date, game_genres } = req.body;
-    rating = Number(rating)
+    
     // game_genres = game_genres.join(', ')
     const videogame = await Videogame.create({
         name,
@@ -109,7 +109,6 @@ router.post('/videogames', async (req, res) => {
         rating,
         plataforms,
         release_date,
-        background_image: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
         // game_genres,
     });
     //buscar id del genero en la base de datos
@@ -129,7 +128,12 @@ router.post('/videogames', async (req, res) => {
 router.get('/videogames/:id', async (req, res) => {
     const { id } = req.params;
     if(isNaN(id)){
-    const videogame = await Videogame.findByPk(id);
+    const videogame = await Videogame.findOne({
+        where: {
+            id: id
+        },
+        include: Genre
+    })
     res.json(videogame)
     }
     else{

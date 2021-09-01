@@ -65,13 +65,13 @@ export default function CreateGame() {
   return (
     <div className="creategame-main">
       <h1>Create your game</h1>
-      <form className="form-container" onSubmit={newGame.name && newGame.description && newGame.plataforms && handleSubmit}>
+      <form className="form-container" onSubmit={newGame.name && newGame.description && newGame.plataforms && newGame.release_date && handleSubmit}>
           <h2>Game Name:</h2>
           <input 
           type="text" 
           name="name" 
           value={newGame.name} 
-          className={newGame.name ? "form-input" : "input-error"} 
+          className={!newGame.name && "input-error"} 
           onChange={handleChange} 
           required />
           {!newGame.name && <p className="alert">*Please enter a name</p>}
@@ -80,7 +80,7 @@ export default function CreateGame() {
           type="text" 
           name="description" 
           value={newGame.description} 
-          className={newGame.description ? "form-input" : "input-error"} 
+          className={!newGame.description && "input-error"} 
           onChange={handleChange} required/>
         {!newGame.description && <p className="alert">*Please enter a description</p>}
    
@@ -89,6 +89,7 @@ export default function CreateGame() {
           type="date" 
           name="release_date" 
           value={newGame.release_date} 
+          className={!newGame.release_date && "input-error"}
           onChange={handleChange} 
           required
           />
@@ -112,7 +113,7 @@ export default function CreateGame() {
           type="text" 
           name="plataforms" 
           value={newGame.plataforms} 
-          className={newGame.plataforms ? "form-input" : "input-error"} 
+          className={!newGame.plataforms && "input-error"} 
           onChange={handleChange} 
           required
           />
@@ -135,8 +136,8 @@ export default function CreateGame() {
           type="submit" 
           value="Create your game" 
           className="form-submit"
-          onClick={newGame.release_date && handleSubmit} 
-          disabled={!newGame.name || !newGame.description || !newGame.plataforms}
+          onClick={newGame.release_date && newGame.name && newGame.description && newGame.plataforms && handleSubmit} 
+          disabled={!newGame.name || !newGame.description || !newGame.plataforms || !newGame.release_date}
           />  
       </form>
     </div>
