@@ -65,7 +65,7 @@ export default function CreateGame() {
   return (
     <div className="creategame-main">
       <h1>Create your game</h1>
-      <form className="form-container" onSubmit={newGame.name && newGame.description && newGame.plataforms && newGame.release_date && handleSubmit}>
+      <form className="form-container" >
           <h2>Game Name:</h2>
           <input 
           type="text" 
@@ -89,11 +89,10 @@ export default function CreateGame() {
           type="date" 
           name="release_date" 
           value={newGame.release_date} 
-          className={!newGame.release_date && "input-error"}
+          // className={!newGame.release_date && "input-error"}
           onChange={handleChange} 
-          required
           />
-        {!newGame.release_date && <p className="alert">*Please enter a release date</p>}
+        {/* {!newGame.release_date && <p className="alert">*Please enter a release date</p>} */}
   
         <h2>Rating:</h2>
             <select 
@@ -133,11 +132,11 @@ export default function CreateGame() {
             </div>
         </div>
           <input 
-          type="submit" 
+          type="submit"
           value="Create your game" 
           className="form-submit"
-          onClick={newGame.release_date && newGame.name && newGame.description && newGame.plataforms && handleSubmit} 
-          disabled={!newGame.name || !newGame.description || !newGame.plataforms || !newGame.release_date}
+          onClick={newGame.name && newGame.description && newGame.plataforms && handleSubmit} 
+          disabled={!newGame.name || !newGame.description || !newGame.plataforms}
           />  
       </form>
     </div>

@@ -101,15 +101,20 @@ router.get('/videogames', async (req, res) => {
 
 router.post('/videogames', async (req, res) => {
     var  { name, description, rating, plataforms, release_date, game_genres } = req.body;
+    if(!rating){
+        rating = null;
+    }
+    if(!release_date){
+        release_date = null;
+    }
     
-    // game_genres = game_genres.join(', ')
     const videogame = await Videogame.create({
         name,
         description,
         rating,
         plataforms,
         release_date,
-        // game_genres,
+       
     });
     //buscar id del genero en la base de datos
     game_genres.forEach( async (genre) => {
@@ -118,7 +123,7 @@ router.post('/videogames', async (req, res) => {
             name: genre
         }
     })
-    await videogame.addGenre(genero)
+    await videogame.setGenres(genero)
 })
     res.json(videogame)
 })
