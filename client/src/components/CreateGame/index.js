@@ -89,7 +89,6 @@ export default function CreateGame() {
           type="date" 
           name="release_date" 
           value={newGame.release_date} 
-          // className={!newGame.release_date && "input-error"}
           onChange={handleChange} 
           />
         {/* {!newGame.release_date && <p className="alert">*Please enter a release date</p>} */}
@@ -139,7 +138,7 @@ export default function CreateGame() {
           value="Create your game" 
           className="form-submit"
           onClick={newGame.name && newGame.description && newGame.plataforms && newGame.rating && handleSubmit} 
-          disabled={!newGame.name || !newGame.description || !newGame.plataforms}
+          disabled={!newGame.name || !newGame.description || !newGame.plataforms || !newGame.rating}
           />  
       </form>
     </div>

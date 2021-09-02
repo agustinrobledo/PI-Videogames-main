@@ -101,9 +101,11 @@ router.get('/videogames', async (req, res) => {
 
 router.post('/videogames', async (req, res) => {
     var  { name, description, rating, plataforms, release_date, game_genres } = req.body;
-    if(!rating){
-        rating = null;
-    }
+    if(!name || !description || !rating || !plataforms) {
+        res.status(400).json({
+            error: 'Complete the form!'
+        })
+    }else{
     if(!release_date){
         release_date = null;
     }
@@ -127,6 +129,7 @@ router.post('/videogames', async (req, res) => {
     })
     }
     res.json(videogame)
+    }
 })
 
     
