@@ -95,10 +95,12 @@ export default function CreateGame() {
         {/* {!newGame.release_date && <p className="alert">*Please enter a release date</p>} */}
   
         <h2>Rating:</h2>
+        {!newGame.rating && <p className="alert">*Please enter a rating</p>}
             <select 
             name="rating" 
             value={newGame.rating} 
             onChange={handleChange}
+            className={!newGame.rating && "input-error"}
             >
               <option></option>
               <option>1</option>
@@ -119,6 +121,7 @@ export default function CreateGame() {
           {!newGame.plataforms && <p className="alert">*Please enter a platforms</p>}
         <div className="genres-container">
           <h2>Genres:</h2>
+          <p className="selected-genres">{newGame.game_genres.join(' - ')}</p>
             <div className="checkbox-container">
               {genreList.map(genre => (
                 <div key={genre.id}>
@@ -135,7 +138,7 @@ export default function CreateGame() {
           type="submit"
           value="Create your game" 
           className="form-submit"
-          onClick={newGame.name && newGame.description && newGame.plataforms && handleSubmit} 
+          onClick={newGame.name && newGame.description && newGame.plataforms && newGame.rating && handleSubmit} 
           disabled={!newGame.name || !newGame.description || !newGame.plataforms}
           />  
       </form>

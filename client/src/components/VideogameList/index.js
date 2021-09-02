@@ -23,7 +23,8 @@ export function VideogameList() {
         search: "",
         filter: "",
         sort: "",
-        sortOrigin: ""
+        sortOrigin: "",
+        ratingSort: ""
     });
 
     const filteredGames = () => {
@@ -36,6 +37,8 @@ export function VideogameList() {
         if (filters.sort === 'Z-A') return listGames.sort((a, b) => b.name.localeCompare(a.name)).slice(currentPage, currentPage + 9);
         if (filters.sortOrigin === 'API') return listGames.filter(game => !(isNaN(game.id))).slice(currentPage, currentPage + 9);
         if (filters.sortOrigin === 'Database') return listGames.filter(game => isNaN(game.id)).slice(currentPage, currentPage + 9);
+        if (filters.ratingSort === 'High to Low') return listGames.sort((a, b) => b.rating - a.rating).slice(currentPage, currentPage + 9);
+        if (filters.ratingSort === 'Low to High') return listGames.sort((a, b) => a.rating - b.rating).slice(currentPage, currentPage + 9);
         else return listGames.slice(currentPage, currentPage + 9)
     }
     const nextPage = () => {
@@ -86,6 +89,21 @@ export function VideogameList() {
                         <option key={genre.id} value={genre.name}>{genre.name}</option>
                         )
                     }     
+                    </select>
+                </div>
+                <div>
+                    <h1>
+                        Sort by rating:
+                    </h1>
+                    <select
+                    name="ratingSort"
+                    value={filters.ratingSort}
+                    onChange={handleChange}
+                    className="select-rate"
+                    >
+                        <option value=""></option>
+                        <option value="High to Low">High to Low</option>
+                        <option value="Low to High">Low to High</option>
                     </select>
                 </div>
                 <div>

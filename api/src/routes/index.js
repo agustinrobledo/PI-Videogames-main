@@ -117,14 +117,15 @@ router.post('/videogames', async (req, res) => {
        
     });
     //buscar id del genero en la base de datos
-    game_genres.forEach( async (genre) => {
+    if(game_genres){game_genres.forEach( async (genre) => {
     const genero = await Genre.findOne({
         where: {
             name: genre
         }
     })
     await videogame.setGenres(genero)
-})
+    })
+    }
     res.json(videogame)
 })
 
@@ -168,12 +169,12 @@ router.get('/videogames/:id', async (req, res) => {
 
 });
 
-router.post ('/genres', async (req, res) => {
-    const { name } = req.body;
-    const genre = await Genre.create({ name });
-    res.json(genre);
-  }
-  );
+// router.post ('/genres', async (req, res) => {
+//     const { name } = req.body;
+//     const genre = await Genre.create({ name });
+//     res.json(genre);
+//   }
+//   );
   router.get('/genres', async(req, res) => {
     const genresDatabase = await Genre.findAll();
     if(genresDatabase.length > 0){

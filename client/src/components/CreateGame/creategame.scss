@@ -45,6 +45,14 @@ $secondary: #E7003E;
             flex-wrap: wrap;
             height: 10vh;
             }
+        .selected-genres{
+            background-color: $primary;
+            border-radius: 0.5rem;
+            text-align: center;
+            color: black;
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
         }
     .form-submit{
         background: $secondary;
