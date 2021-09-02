@@ -12,9 +12,6 @@ export default function Nav(){
                         <a href="/home">Home</a>
                     </li>
                     <li>
-                        <a href="/about">About</a>
-                    </li>
-                    <li>
                         <a className="createYourGame" href="/createyourgame">Create your game</a>
                     </li>    
                 </ul> 
