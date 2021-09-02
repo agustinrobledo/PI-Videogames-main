@@ -133,13 +133,18 @@ router.post('/videogames', async (req, res) => {
 router.get('/videogames/:id', async (req, res) => {
     const { id } = req.params;
     if(isNaN(id)){
-    const videogame = await Videogame.findOne({
-        where: {
-            id: id
-        },
-        include: Genre
-    })
-    res.json(videogame)
+        try{
+            const videogame = await Videogame.findOne({
+                where: {
+                    id: id
+                },
+                include: Genre
+            })
+            res.json(videogame)
+        }
+        catch(error){
+            res.json({error: 'No se encontro el videojuego'})
+        }
     }
     else{
         const response = await fetch(`https://api.rawg.io/api/games/${id}?key=${apiKey}`)
