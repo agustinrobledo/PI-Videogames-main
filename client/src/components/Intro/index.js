@@ -6,6 +6,7 @@ export default function Intro(){
     <div className="intro-container">
         <div className="intro-text">
             <h1>VIDEOGAMES APP</h1>
+            <h3>by Fernando Agustin Robledo</h3>
         </div>
         <div>
             <Link className="intro-link"to="/home">
